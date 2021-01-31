@@ -5,6 +5,8 @@ services:
   - docker
 
 before_install:
+  - echo 'DOCKER_OPTS="$DOCKER_OPTS --registry-mirror=https://mirror.gcr.io"'
+  - sudo service docker restart
   - docker build -t cgiardin6d3947/react-test -f ./client/Dockerfile.dev ./client
 
 script:
@@ -25,7 +27,6 @@ after_success:
 
 deploy:
   provider: elasticbeanstalk
-  github_token: $GITHUB_TOKEN
   region: "us-east-2"
   app: "multi-docker"
   env: "Multidocker-env" 
